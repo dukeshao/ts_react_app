@@ -1,44 +1,128 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+使用 create-react-app 创建 TS 项目:
 
-## Available Scripts
+```js
+create-react-app tsapp --typescript
+cd tsapp
+#安装依赖
+npm i
+#安装路由
+npm i @types/react-router-dom react-router-dom
 
-In the project directory, you can run:
+```
 
-### `npm start`
+### 创建组件
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+纯函数组件
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```tsx
+import React from 'react';
+import {Route} from "react-router-dom";
 
-### `npm test`
+const Detail: React.FC = () => {
+  return (
+    <div className="detail">
+       这是详情页
+    </div>
+  );
+}
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default Detail;
 
-### `npm run build`
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+类组件
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```tsx
+import React, {Component} from "react";
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+interface P {
+  color: string,
+  size?: string
+}
+interface S {
+  count: number
+}
+class List extends Component<P, S> {
+  public count = 7
+  public hello = (): void => {
+    console.log(666)
+  }
+  render() {
+    return (
+      <div>
+        这是列表页
+      <button onClick={this.hello}>点击</button>
+        {this.count}
+      </div>
+    )
+  }
+}
 
-### `npm run eject`
+export default List;
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 引入 Antd（初级用法）
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```tsx
+#安装 antd
+yarn add antd
+#修改 src/App.tsx，引入 antd 的按钮组件。
+import React, { Component } from 'react';
+import Button from 'antd/es/button';
+import './App.css';
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Button type="primary">Button</Button>
+      </div>
+    );
+  }
+}
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export default App;
+#App.css 中引入 antd 样式文件
+@import '~antd/dist/antd.css';
+```
 
-## Learn More
+其实这样是把 antd 的样式全部引入，不符合按需引入。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 高级配置（按需加载样式）
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```tsx
+#安装
+yarn add react-app-rewired customize-cra
+#改写 package.json 命令
+/* package.json */
+"scripts": {
+-   "start": "react-scripts start",
++   "start": "react-app-rewired start",
+-   "build": "react-scripts build",
++   "build": "react-app-rewired build",
+-   "test": "react-scripts test",
++   "test": "react-app-rewired test",
+}
+#然后在项目根目录创建一个 config-overrides.js 用于修改默认配置。
+module.exports = function override(config, env) {
+  // do stuff with the webpack config...
+  return config;
+};
+#使用 babel-plugin-import是一个用于按需加载组件代码和样式的 babel 插件，修改 config-overrides.js 配置
++ const { override, fixBabelImports } = require('customize-cra');
+
+- module.exports = function override(config, env) {
+-   // do stuff with the webpack config...
+-   return config;
+- };
++ module.exports = override(
++   fixBabelImports('import', {
++     libraryName: 'antd',
++     libraryDirectory: 'es',
++     style: 'css',
++   }),
++ );
+#删除在 App.css 中引入的 antd 样式表，在使用组件的地方，按如下方式引入组件即可加载相应的样式
+import { Button } from 'antd';
+```
+

@@ -16,7 +16,7 @@ class List extends Component<P, S> {
     return (
       <div>
         这是列表页
-      <button onClick={this.hello}>点击</button>
+      <input type="button" onClick={this.hello} value="点击" />
         {this.count}
       </div>
     )

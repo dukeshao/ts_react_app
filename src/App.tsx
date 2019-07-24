@@ -6,6 +6,8 @@ import List from "./components/List/List";
 import Login from "./components/Login/Login";
 import Mine from "./components/Mine/Mine";
 
+import {Button} from 'antd';
+
 const App: React.FC = () => {
   return (
     <div className="App">
@@ -17,7 +19,7 @@ const App: React.FC = () => {
           <a href="#/login">登录页面</a>
         </li>
         <li>
-          <a href="#/list">列表页</a>
+          <a href="#/list"><Button type="primary">列表页</Button></a>
         </li>
         <li>
           <a href="#/mine">个人中心</a>

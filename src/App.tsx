@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Route} from "react-router-dom";
+
+import Home from "./components/Home/Home";
+import List from "./components/List/List";
+import Login from "./components/Login/Login";
+import Mine from "./components/Mine/Mine";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        <li>
+          <a href="#/">首页</a>
+        </li>
+        <li>
+          <a href="#/login">登录页面</a>
+        </li>
+        <li>
+          <a href="#/list">列表页</a>
+        </li>
+        <li>
+          <a href="#/mine">个人中心</a>
+        </li>
+      </ul>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/list" component={List} />
+      <Route path="/mine" component={Mine} />
     </div>
   );
 }

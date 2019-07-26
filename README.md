@@ -1,3 +1,5 @@
+## 一、环境搭建
+
 使用 create-react-app 创建 TS 项目:
 
 ```js
@@ -10,9 +12,9 @@ npm i @types/react-router-dom react-router-dom
 
 ```
 
-### 创建组件
+## 二、创建组件
 
-纯函数组件
+### （一）纯函数组件
 
 ```tsx
 import React from 'react';
@@ -27,10 +29,9 @@ const Detail: React.FC = () => {
 }
 
 export default Detail;
-
 ```
 
-类组件
+### （二）类组件
 
 ```tsx
 import React, {Component} from "react";
@@ -61,7 +62,9 @@ class List extends Component<P, S> {
 export default List;
 ```
 
-### 引入 Antd（初级用法）
+## 三、引入 Antd
+
+### （一）初级用法
 
 ```tsx
 #安装 antd
@@ -88,7 +91,7 @@ export default App;
 
 其实这样是把 antd 的样式全部引入，不符合按需引入。
 
-### 高级配置（按需加载样式）
+### （二）高级配置（按需加载样式）
 
 ```tsx
 #安装
